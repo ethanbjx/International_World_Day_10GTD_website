@@ -204,7 +204,6 @@
             transition: transform 180ms ease, box-shadow 180ms ease;
             z-index:3;
         }
-        /* subtle star shine on button */
         button::before {
             content:"";
             position:absolute;
@@ -271,7 +270,7 @@
             for (let i = 0; i < count; i++) {
                 const s = document.createElement('div');
                 s.className = 'star';
-                const size = Math.random() * 2.5 + 0.4; // 0.4 - 3px
+                const size = Math.random() * 2.5 + 0.4;
                 s.style.width = s.style.height = size + 'px';
                 s.style.left = Math.random() * 100 + '%';
                 s.style.top = Math.random() * 100 + '%';
@@ -281,7 +280,6 @@
                 document.body.appendChild(s);
             }
 
-            // simple keyframes via stylesheet injection to avoid duplicating in CSS file
             const style = document.createElement('style');
             style.textContent = `
                 @keyframes starTwinkle {
@@ -299,7 +297,8 @@
         });
 
         const secretCode = "open-sesame";
-        const revealWord = "Say Out This Word: 'unicorn'";
+        const revealWord = "Say the answer to this riddle to go trough:";
+        const riddle = "I am the beginning of the end and the end of time and space. I am essential to creation, and I surround every place. What am I?"
 
         const input = document.getElementById('codeInput');
         const btn = document.getElementById('checkBtn');
@@ -309,20 +308,20 @@
         function checkCode() {
             const value = input.value.trim();
             if (!value) {
-                msg.textContent = "Please enter a code.";
-                msg.className = "msg err";
-                secret.style.display = "none";
-                return;
+            msg.textContent = "Please enter a code.";
+            msg.className = "msg err";
+            secret.style.display = "none";
+            return;
             }
             if (value === secretCode) {
-                msg.textContent = "Correct!";
-                msg.className = "msg ok";
-                secret.textContent = revealWord;
-                secret.style.display = "inline-block";
+            msg.textContent = "Correct!";
+            msg.className = "msg ok";
+            secret.innerHTML = revealWord + '<br><span style="display:block;margin-top:8px;">"' + riddle + '"</span>';
+            secret.style.display = "inline-block";
             } else {
-                msg.textContent = "Incorrect";
-                msg.className = "msg err";
-                secret.style.display = "none";
+            msg.textContent = "Incorrect";
+            msg.className = "msg err";
+            secret.style.display = "none";
             }
         }
 
