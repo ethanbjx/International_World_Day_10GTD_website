@@ -166,7 +166,7 @@
     </style>
 </head>
 <body>
-
+    <audio id="myAudio" src="sound.mp3"></audio>
     <div class="card" role="region" aria-label="Code check panel">
         <h3>Enter the code</h3>
         <input id="codeInput" placeholder="Type code and press Enter" autocomplete="off" />
@@ -176,8 +176,6 @@
         <div id="message" class="msg" aria-live="polite"></div>
         <div id="secretWord" class="secret" style="display:none"></div>
     </div>
-
-    <audio id="doorSound" src="https://cdn.pixabay.com/download/audio/2023/03/09/audio_35381c6371.mp3?filename=door-opening-107766.mp3"></audio>
 
     <script>
         // Create twinkling stars
@@ -207,6 +205,7 @@
         })();
 
         const secretCode = "20 July 1969";
+        const answer = "e";
         const revealWord = "Type the answer to this riddle to open the door:";
         const riddle = "I am the beginning of the end and the end of time and space. I am essential to creation, and I surround every place. What am I?";
 
@@ -214,7 +213,7 @@
         const btn = document.getElementById('checkBtn');
         const msg = document.getElementById('message');
         const secret = document.getElementById('secretWord');
-        const sound = document.getElementById('doorSound');
+        const audio = document.getElementById("myAudio");
 
         function resetAll() {
             input.value = "";
@@ -232,15 +231,18 @@
                 return;
             }
 
-            if (value === secretCode) {
+            if (value == secretCode) {
                 msg.textContent = "Correct!";
                 msg.className = "msg ok";
                 secret.innerHTML = revealWord + '<br><span style="display:block;margin-top:8px;">"' + riddle + '"</span>';
                 secret.style.display = "inline-block";
                 sound.currentTime = 0;
-                sound.play();
 
-                // Restart everything after 6 seconds
+                input.value = "";
+                if (value == answer) {
+                    secret.innerHTML = "The door is now open!";
+                    audio.play();
+                }
                 setTimeout(resetAll, 6000);
             } else {
                 msg.textContent = "Incorrect";
