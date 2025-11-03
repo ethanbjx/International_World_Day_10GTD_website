@@ -177,6 +177,8 @@
         <div id="secretWord" class="secret" style="display:none"></div>
     </div>
 
+    <audio id="doorSound" src="https://cdn.pixabay.com/download/audio/2023/03/09/audio_35381c6371.mp3?filename=door-opening-107766.mp3"></audio>
+
     <script>
         // Create twinkling stars
         (function createStars(count = 120) {
@@ -205,13 +207,21 @@
         })();
 
         const secretCode = "20 July 1969";
-        const revealWord = "Say the answer to this riddle to go open the door:";
+        const revealWord = "Type the answer to this riddle to open the door:";
         const riddle = "I am the beginning of the end and the end of time and space. I am essential to creation, and I surround every place. What am I?";
 
         const input = document.getElementById('codeInput');
         const btn = document.getElementById('checkBtn');
         const msg = document.getElementById('message');
         const secret = document.getElementById('secretWord');
+        const sound = document.getElementById('doorSound');
+
+        function resetAll() {
+            input.value = "";
+            msg.textContent = "";
+            msg.className = "msg";
+            secret.style.display = "none";
+        }
 
         function checkCode() {
             const value = input.value.trim();
@@ -221,11 +231,17 @@
                 secret.style.display = "none";
                 return;
             }
+
             if (value === secretCode) {
                 msg.textContent = "Correct!";
                 msg.className = "msg ok";
                 secret.innerHTML = revealWord + '<br><span style="display:block;margin-top:8px;">"' + riddle + '"</span>';
                 secret.style.display = "inline-block";
+                sound.currentTime = 0;
+                sound.play();
+
+                // Restart everything after 6 seconds
+                setTimeout(resetAll, 6000);
             } else {
                 msg.textContent = "Incorrect";
                 msg.className = "msg err";
@@ -233,11 +249,8 @@
             }
         }
 
-        input.value = "";
         btn.addEventListener('click', checkCode);
-        input.addEventListener('keydown', function(e) {
-            if (e.key === 'Enter') checkCode();
-        });
+        input.addEventListener('keydown', e => { if (e.key === 'Enter') checkCode(); });
     </script>
 </body>
 </html>
