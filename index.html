@@ -141,14 +141,12 @@
 
         const secretCode = "20 July 1969";
         const riddleText = "I am the beginning of the end and the end of time and space. I am essential to creation, and I surround every place. What am I?";
-        const riddleAnswer = "e";
 
         const input = document.getElementById('codeInput');
         const btn = document.getElementById('checkBtn');
         const msg = document.getElementById('message');
         const secret = document.getElementById('secretWord');
         const prompt = document.getElementById('prompt');
-        const audio = document.getElementById("myAudio");
 
         function resetAll() { 
             input.value = ""; 
@@ -169,7 +167,7 @@
             msg.className = "msg ok";
             secret.innerHTML = '"' + riddleText + '"';
             secret.style.display = "inline-block";
-            prompt.textContent = "Now, answer the riddle to the gaurd to move on";
+            prompt.textContent = "Now, answer the riddle to the guard to move on";
             input.value = "";
             setTimeout(resetAll, 6000);
         } else {
