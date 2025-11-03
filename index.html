@@ -150,15 +150,15 @@
         const prompt = document.getElementById('prompt');
         const audio = document.getElementById("myAudio");
 
+        let step = 1;
+
         function resetAll() { 
             input.value = ""; 
             msg.textContent = ""; 
             msg.className = "msg"; 
             secret.style.display = "none"; 
-            let step = 1;
+            step = 1;
         }
-
-        let step = 1;
 
         function checkCode() {
             const value = input.value.trim();
@@ -185,7 +185,6 @@
                     audio.currentTime = 0;
                     audio.play();
                     input.value = "";
-                    sound.currentTime = 0;
                     setTimeout(resetAll, 6000);
 
                 } else {
