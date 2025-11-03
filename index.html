@@ -150,13 +150,21 @@
         const prompt = document.getElementById('prompt');
         const audio = document.getElementById("myAudio");
 
+        function resetAll() { 
+            input.value = ""; 
+            msg.textContent = ""; 
+            msg.className = "msg"; 
+            secret.style.display = "none"; 
+            let step = 1;
+        }
+
         let step = 1;
 
         function checkCode() {
             const value = input.value.trim();
 
             if (step === 1) {
-                if (value === secretCode) {
+                if (value == secretCode) {
                     msg.textContent = "Correct! Code accepted.";
                     msg.className = "msg ok";
                     secret.innerHTML = '"' + riddleText + '"';
@@ -170,13 +178,16 @@
                 }
             } 
             else if (step === 2) {
-                if (value.toLowerCase() === riddleAnswer) {
+                if (value.toLowerCase() == riddleAnswer) {
                     msg.textContent = "Correct! The door is now open.";
                     msg.className = "msg ok";
                     secret.style.display = "none";
                     audio.currentTime = 0;
                     audio.play();
                     input.value = "";
+                    sound.currentTime = 0;
+                    setTimeout(resetAll, 6000);
+
                 } else {
                     msg.textContent = "Wrong answer.";
                     msg.className = "msg err";
