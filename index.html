@@ -157,8 +157,6 @@
 
         function checkCode() {
     const value = input.value.trim();
-
-    if (step === 1) {
         const cleanedValue = value.replace(/\s+/g, "").toLowerCase();
         const cleanedCode = secretCode.replace(/\s+/g, "").toLowerCase();
 
@@ -169,13 +167,13 @@
             secret.style.display = "inline-block";
             prompt.textContent = "Now, answer the riddle to the guard to move on";
             input.value = "";
-            setTimeout(resetAll, 6000);
+            setTimeout(resetAll, 30000);
         } else {
             msg.textContent = "Incorrect code.";
             msg.className = "msg err";
         }
     }   
-}
+
 
         btn.addEventListener('click', checkCode);
         input.addEventListener('keydown', e => { if (e.key === 'Enter') checkCode(); });
