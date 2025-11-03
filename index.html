@@ -150,49 +150,34 @@
         const prompt = document.getElementById('prompt');
         const audio = document.getElementById("myAudio");
 
-        let step = 1;
-
         function resetAll() { 
             input.value = ""; 
             msg.textContent = ""; 
             msg.className = "msg"; 
             secret.style.display = "none"; 
-            step = 1;
         }
 
         function checkCode() {
-            const value = input.value.trim();
+    const value = input.value.trim();
 
-            if (step === 1) {
-                if (value == secretCode) {
-                    msg.textContent = "Correct! Code accepted.";
-                    msg.className = "msg ok";
-                    secret.innerHTML = '"' + riddleText + '"';
-                    secret.style.display = "inline-block";
-                    prompt.textContent = "Now, answer the riddle";
-                    input.value = "";
-                    step = 2;
-                } else {
-                    msg.textContent = "Incorrect code.";
-                    msg.className = "msg err";
-                }
-            } 
-            else if (step === 2) {
-                if (value.toLowerCase() == riddleAnswer) {
-                    msg.textContent = "Correct! The door is now open.";
-                    msg.className = "msg ok";
-                    secret.style.display = "none";
-                    audio.currentTime = 0;
-                    audio.play();
-                    input.value = "";
-                    setTimeout(resetAll, 6000);
+    if (step === 1) {
+        const cleanedValue = value.replace(/\s+/g, "").toLowerCase();
+        const cleanedCode = secretCode.replace(/\s+/g, "").toLowerCase();
 
-                } else {
-                    msg.textContent = "Wrong answer.";
-                    msg.className = "msg err";
-                }
-            }
+        if (cleanedValue === cleanedCode) {
+            msg.textContent = "Correct! Code accepted.";
+            msg.className = "msg ok";
+            secret.innerHTML = '"' + riddleText + '"';
+            secret.style.display = "inline-block";
+            prompt.textContent = "Now, answer the riddle to the gaurd to move on";
+            input.value = "";
+            setTimeout(resetAll, 6000);
+        } else {
+            msg.textContent = "Incorrect code.";
+            msg.className = "msg err";
         }
+    }   
+}
 
         btn.addEventListener('click', checkCode);
         input.addEventListener('keydown', e => { if (e.key === 'Enter') checkCode(); });
