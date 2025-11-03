@@ -1,279 +1,243 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Code Check</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Code Check</title>
 
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700&display=swap" rel="stylesheet">
 
-  <style>
-    *, *::before, *::after { box-sizing: border-box; }
-    :root {
-      --glass-border: rgba(255,255,255,0.06);
-      --accent: #60a5fa;
-      --ok: #34d399;
-      --err: #fb7185;
-      --text: #e6eef8;
-      --btn-glow: rgba(99,102,241,0.16);
-    }
+    <style>
+        *, *::before, *::after { box-sizing: border-box; }
 
-    html,body { height:100%; margin:0; }
-    body {
-      font-family: 'Orbitron', system-ui, Arial, sans-serif;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      min-height:100vh;
-      color:var(--text);
-      background:
-        radial-gradient(1200px 600px at 10% 10%, rgba(96,165,250,0.06), transparent 10%),
-        linear-gradient(180deg, #00101b 0%, #02030a 45%, #000010 100%),
-        repeating-radial-gradient(circle at 20% 10%, rgba(255,255,255,0.06) 0 1px, transparent 1px 60px),
-        repeating-radial-gradient(circle at 80% 70%, rgba(255,255,255,0.03) 0 1px, transparent 1px 40px);
-      background-size: cover;
-      overflow:hidden;
-    }
+        :root {
+            --card-bg: rgba(6, 10, 18, 0.86);
+            --glass-border: rgba(255,255,255,0.06);
+            --accent: #60a5fa;
+            --accent-2: #7c3aed;
+            --ok: #34d399;
+            --err: #fb7185;
+            --text: #e6eef8;
+            --btn-glow: rgba(99,102,241,0.16);
+        }
 
-    /* ✨ Twinkle overlay */
-    body::after {
-      content:"";
-      position:fixed;
-      inset:0;
-      background:
-        radial-gradient(circle at 20% 30%, rgba(255,255,255,0.06), transparent 6%),
-        radial-gradient(circle at 80% 80%, rgba(255,255,255,0.04), transparent 4%);
-      mix-blend-mode: screen;
-      opacity:0.12;
-      animation: twinkle 6s linear infinite;
-      pointer-events:none;
-    }
+        html,body { height:100%; margin:0; }
 
-    @keyframes twinkle {
-      0% { opacity:0.10; transform:translateY(0) scale(1); }
-      50% { opacity:0.22; transform:translateY(-6px) scale(1.01); }
-      100% { opacity:0.10; transform:translateY(0) scale(1); }
-    }
+        body {
+            font-family: 'Orbitron', system-ui, Arial, sans-serif;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            min-height:100vh;
+            color:var(--text);
+            background:
+              radial-gradient(1200px 600px at 10% 10%, rgba(96,165,250,0.06), transparent 10%),
+              linear-gradient(180deg, #00101b 0%, #02030a 45%, #000010 100%),
+              repeating-radial-gradient(circle at 20% 10%, rgba(255,255,255,0.06) 0 1px, transparent 1px 60px),
+              repeating-radial-gradient(circle at 80% 70%, rgba(255,255,255,0.03) 0 1px, transparent 1px 40px);
+            background-size: cover;
+            overflow:hidden;
+        }
 
-    /* ✨ Stars */
-    .star {
-      position:fixed;
-      background: white;
-      border-radius:50%;
-      pointer-events:none;
-      filter: blur(0.2px);
-      opacity:0.9;
-      box-shadow: 0 0 6px rgba(255,255,255,0.6);
-      z-index:0;
-    }
+        body::after {
+            content:"";
+            position:fixed;
+            inset:0;
+            background:
+              radial-gradient(circle at 20% 30%, rgba(255,255,255,0.06), transparent 6%),
+              radial-gradient(circle at 80% 80%, rgba(255,255,255,0.04), transparent 4%);
+            mix-blend-mode: screen;
+            opacity:0.12;
+            animation: twinkle 6s linear infinite;
+            pointer-events:none;
+        }
 
-    /* 🔲 Card box */
-    .card {
-      width:720px;
-      max-width:92%;
-      background: linear-gradient(180deg, rgba(15,20,30,0.9), rgba(6,10,16,0.78));
-      padding:36px;
-      border-radius:16px;
-      box-shadow: 0 30px 80px rgba(2,6,23,0.7);
-      border: 1px solid var(--glass-border);
-      text-align:center;
-      backdrop-filter: blur(8px) saturate(120%);
-      position:relative;
-      z-index:2; 
-      transition: opacity 0.6s ease;
-    }
+        @keyframes twinkle {
+            0% { opacity:0.10; transform:translateY(0) scale(1); }
+            50% { opacity:0.22; transform:translateY(-6px) scale(1.01); }
+            100% { opacity:0.10; transform:translateY(0) scale(1); }
+        }
 
-    h3 { margin:0 0 18px 0; font-size:26px; letter-spacing:1px; color:var(--text); text-transform:uppercase; }
+        .star {
+            position:fixed;
+            background: white;
+            border-radius:50%;
+            pointer-events:none;
+            filter: blur(0.2px);
+            opacity:0.9;
+            box-shadow: 0 0 6px rgba(255,255,255,0.6);
+            z-index:0;
+        }
 
-    input {
-      width:100%;
-      padding:14px 16px;
-      margin-bottom:14px;
-      border:1px solid rgba(255,255,255,0.06);
-      border-radius:10px;
-      background: rgba(255,255,255,0.02);
-      color:var(--text);
-      font-size:18px;
-      outline:none;
-    }
+        .card {
+            width:720px;
+            max-width:92%;
+            background: linear-gradient(180deg, rgba(15,20,30,0.9), rgba(6,10,16,0.78));
+            padding:36px;
+            border-radius:16px;
+            box-shadow: 0 30px 80px rgba(2,6,23,0.7);
+            border: 1px solid var(--glass-border);
+            text-align:center;
+            backdrop-filter: blur(8px) saturate(120%);
+            position:relative;
+            z-index:2; 
+        }
 
-    input::placeholder { color: rgba(230,238,248,0.35); }
+        h3 { margin:0 0 18px 0; font-size:26px; letter-spacing:1px; color:var(--text); text-transform:uppercase; }
 
-    .controls { display:flex; gap:12px; justify-content:center; align-items:center; margin-top:6px; }
+        input {
+            width:100%;
+            padding:14px 16px;
+            margin-bottom:14px;
+            border:1px solid rgba(255,255,255,0.06);
+            border-radius:10px;
+            background: rgba(255,255,255,0.02);
+            color:var(--text);
+            font-size:18px;
+            outline:none;
+        }
 
-    button {
-      position:relative;
-      padding:12px 22px;
-      border:0;
-      color:white;
-      border-radius:12px;
-      cursor:pointer;
-      font-weight:700;
-      font-size:16px;
-      letter-spacing:0.6px;
-      overflow:hidden;
-      background: linear-gradient(180deg, rgba(124,58,237,0.95), rgba(37,99,235,0.95));
-      box-shadow: 0 8px 36px var(--btn-glow), 0 2px 0 rgba(255,255,255,0.02) inset;
-      transition: transform 180ms ease, box-shadow 180ms ease;
-      z-index:3;
-    }
+        input::placeholder { color: rgba(230,238,248,0.35); font-weight:400; }
 
-    button:hover {
-      transform: translateY(-4px) scale(1.02);
-      box-shadow: 0 18px 56px rgba(99,102,241,0.22);
-    }
+        .controls { display:flex; gap:12px; justify-content:center; align-items:center; margin-top:6px; }
 
-    .msg { margin-top:18px; min-height:26px; font-weight:700; font-size:16px; color:var(--text); }
-    .msg.ok { color: var(--ok); }
-    .msg.err { color: var(--err); }
+        button {
+            position:relative;
+            padding:12px 22px;
+            border:0;
+            color:white;
+            border-radius:12px;
+            cursor:pointer;
+            font-weight:700;
+            font-size:16px;
+            letter-spacing:0.6px;
+            overflow:hidden;
+            background: linear-gradient(180deg, rgba(124,58,237,0.95), rgba(37,99,235,0.95));
+            box-shadow: 0 8px 36px var(--btn-glow), 0 2px 0 rgba(255,255,255,0.02) inset;
+            transition: transform 180ms ease, box-shadow 180ms ease;
+            z-index:3;
+        }
+        button::before {
+            content:"";
+            position:absolute;
+            left:-30%;
+            top:-40%;
+            width:160%;
+            height:180%;
+            background: radial-gradient(ellipse at 30% 20%, rgba(255,255,255,0.12) 0 6%, transparent 14%),
+                        radial-gradient(ellipse at 70% 80%, rgba(255,255,255,0.06) 0 8%, transparent 20%);
+            transform:rotate(18deg);
+            transition: opacity 200ms;
+            pointer-events:none;
+            mix-blend-mode: screen;
+        }
+        button:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 18px 56px rgba(99,102,241,0.22), 0 4px 0 rgba(255,255,255,0.02) inset;
+        }
+        button:active {
+            transform: translateY(0) scale(0.995);
+        }
 
-    .secret {
-      margin-top:14px;
-      font-size:22px;
-      font-weight:800;
-      letter-spacing:0.6px;
-      color:var(--text);
-      background: linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      padding:12px 14px;
-      border-radius:10px;
-      display:inline-block;
-      border: 1px solid rgba(255,255,255,0.03);
-    }
+        .msg { margin-top:18px; min-height:26px; font-weight:700; font-size:16px; color:var(--text); }
+        .msg.ok { color: var(--ok); }
+        .msg.err { color: var(--err); }
 
-    /* 🚪 Door animation */
-    .door {
-      position:fixed;
-      top:0;
-      bottom:0;
-      width:50%;
-      background:#030712;
-      z-index:5;
-      transition: transform 1.6s ease-in-out;
-    }
-    .door.left { left:0; transform: translateX(0); }
-    .door.right { right:0; transform: translateX(0); }
-    .door.open.left { transform: translateX(-100%); }
-    .door.open.right { transform: translateX(100%); }
+        .secret {
+            margin-top:14px;
+            font-size:22px;
+            font-weight:800;
+            letter-spacing:0.6px;
+            color:var(--text);
+            background: linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+            padding:12px 14px;
+            border-radius:10px;
+            display:inline-block;
+            border: 1px solid rgba(255,255,255,0.03);
+        }
 
-    /* 🧩 Next stage */
-    .next-stage {
-      display:none;
-      opacity:0;
-      text-align:center;
-      z-index:10;
-      position:absolute;
-      top:50%;
-      left:50%;
-      transform:translate(-50%, -50%);
-      transition: opacity 1s ease;
-    }
-
-    .next-stage.visible {
-      display:block;
-      opacity:1;
-    }
-
-    @media (max-width:420px) {
-      .card { padding:20px; width:94%; }
-      input { font-size:16px; padding:12px; }
-      button { padding:10px 14px; font-size:15px; }
-      .secret { font-size:18px; }
-      h3 { font-size:18px; }
-    }
-  </style>
+        @media (max-width:420px) {
+            .card { padding:20px; width:94%; }
+            input { font-size:16px; padding:12px; }
+            button { padding:10px 14px; font-size:15px; }
+            .secret { font-size:18px; }
+            h3 { font-size:18px; }
+        }
+    </style>
 </head>
 <body>
 
-  <div class="door left"></div>
-  <div class="door right"></div>
-
-  <div class="card" role="region" aria-label="Code check panel">
-    <h3>Enter the code</h3>
-    <input id="codeInput" placeholder="Type code and press Enter" autocomplete="off" />
-    <div class="controls">
-      <button id="checkBtn" title="Check code">CHECK</button>
+    <div class="card" role="region" aria-label="Code check panel">
+        <h3>Enter the code</h3>
+        <input id="codeInput" placeholder="Type code and press Enter" autocomplete="off" />
+        <div class="controls">
+            <button id="checkBtn" title="Check code">CHECK</button>
+        </div>
+        <div id="message" class="msg" aria-live="polite"></div>
+        <div id="secretWord" class="secret" style="display:none"></div>
     </div>
-    <div id="message" class="msg" aria-live="polite"></div>
-    <div id="secretWord" class="secret" style="display:none"></div>
-  </div>
 
-  <div class="next-stage" id="nextStage">
-    <h2>Next Challenge</h2>
-    <p>What has to be broken before you can use it?</p>
-    <input id="nextAnswer" placeholder="Your answer..." autocomplete="off">
-  </div>
+    <script>
+        // Create twinkling stars
+        (function createStars(count = 120) {
+            for (let i = 0; i < count; i++) {
+                const s = document.createElement('div');
+                s.className = 'star';
+                const size = Math.random() * 2.5 + 0.4;
+                s.style.width = s.style.height = size + 'px';
+                s.style.left = Math.random() * 100 + '%';
+                s.style.top = Math.random() * 100 + '%';
+                s.style.opacity = (Math.random() * 0.7 + 0.3).toFixed(2);
+                const dur = Math.random() * 6 + 3;
+                s.style.animation = `starTwinkle ${dur}s ease-in-out ${Math.random()*-dur}s infinite`;
+                document.body.appendChild(s);
+            }
 
-  <script>
-    // 🌟 Create twinkling stars
-    (function createStars(count = 120) {
-      for (let i = 0; i < count; i++) {
-        const s = document.createElement('div');
-        s.className = 'star';
-        const size = Math.random() * 2.5 + 0.4;
-        s.style.width = s.style.height = size + 'px';
-        s.style.left = Math.random() * 100 + '%';
-        s.style.top = Math.random() * 100 + '%';
-        s.style.opacity = (Math.random() * 0.7 + 0.3).toFixed(2);
-        const dur = Math.random() * 6 + 3;
-        s.style.animation = `starTwinkle ${dur}s ease-in-out ${Math.random()*-dur}s infinite`;
-        document.body.appendChild(s);
-      }
-      const style = document.createElement('style');
-      style.textContent = `
-        @keyframes starTwinkle {
-          0% { transform: scale(1); opacity: 0.2; filter: blur(0.2px); }
-          50% { transform: scale(1.6); opacity: 1; filter: blur(0.5px); }
-          100% { transform: scale(1); opacity: 0.2; filter: blur(0.2px); }
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes starTwinkle {
+                    0% { transform: scale(1); opacity: 0.2; filter: blur(0.2px); }
+                    50% { transform: scale(1.6); opacity: 1; filter: blur(0.5px); }
+                    100% { transform: scale(1); opacity: 0.2; filter: blur(0.2px); }
+                }
+            `;
+            document.head.appendChild(style);
+        })();
+
+        const secretCode = "20 July 1969";
+        const revealWord = "Say the answer to this riddle to go open the door:";
+        const riddle = "I am the beginning of the end and the end of time and space. I am essential to creation, and I surround every place. What am I?";
+
+        const input = document.getElementById('codeInput');
+        const btn = document.getElementById('checkBtn');
+        const msg = document.getElementById('message');
+        const secret = document.getElementById('secretWord');
+
+        function checkCode() {
+            const value = input.value.trim();
+            if (!value) {
+                msg.textContent = "Please enter a code.";
+                msg.className = "msg err";
+                secret.style.display = "none";
+                return;
+            }
+            if (value === secretCode) {
+                msg.textContent = "Correct!";
+                msg.className = "msg ok";
+                secret.innerHTML = revealWord + '<br><span style="display:block;margin-top:8px;">"' + riddle + '"</span>';
+                secret.style.display = "inline-block";
+            } else {
+                msg.textContent = "Incorrect";
+                msg.className = "msg err";
+                secret.style.display = "none";
+            }
         }
-      `;
-      document.head.appendChild(style);
-    })();
 
-    const secretCode = "20 July 1969";
-    const revealWord = "Correct code! The door is opening...";
-    const input = document.getElementById('codeInput');
-    const btn = document.getElementById('checkBtn');
-    const msg = document.getElementById('message');
-    const secret = document.getElementById('secretWord');
-    const nextStage = document.getElementById('nextStage');
-
-    const leftDoor = document.querySelector('.door.left');
-    const rightDoor = document.querySelector('.door.right');
-
-    function checkCode() {
-      const value = input.value.trim();
-      if (!value) {
-        msg.textContent = "Please enter a code.";
-        msg.className = "msg err";
-        secret.style.display = "none";
-        return;
-      }
-      if (value === secretCode) {
-        msg.textContent = "Correct!";
-        msg.className = "msg ok";
-        secret.textContent = revealWord;
-        secret.style.display = "inline-block";
-        setTimeout(openDoor, 1000);
-      } else {
-        msg.textContent = "Incorrect";
-        msg.className = "msg err";
-        secret.style.display = "none";
-      }
-    }
-
-    function openDoor() {
-      leftDoor.classList.add('open');
-      rightDoor.classList.add('open');
-      document.querySelector('.card').style.opacity = '0';
-      setTimeout(() => {
-        document.querySelector('.card').style.display = 'none';
-        nextStage.classList.add('visible');
-      }, 1800);
-    }
-
-    input.value = "";
-    btn.addEventListener('click', checkCode);
-    input.addEventListener('keydown', e => { if (e.key === 'Enter') checkCode(); });
-  </script>
+        input.value = "";
+        btn.addEventListener('click', checkCode);
+        input.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') checkCode();
+        });
+    </script>
 </body>
 </html>
