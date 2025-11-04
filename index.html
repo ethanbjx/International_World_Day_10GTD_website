@@ -152,7 +152,9 @@
             input.value = ""; 
             msg.textContent = ""; 
             msg.className = "msg"; 
-            secret.style.display = "none"; 
+            secret.style.display = "none";
+            prompt.textContent = "Enter the code"; 
+
         }
 
         function checkCode() {
@@ -167,7 +169,7 @@
             secret.style.display = "inline-block";
             prompt.textContent = "Now, answer the riddle to the guard to move on";
             input.value = "";
-            setTimeout(resetAll, 30000);
+            setTimeout(resetAll, 70000);
         } else {
             msg.textContent = "Incorrect code.";
             msg.className = "msg err";
